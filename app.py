@@ -153,12 +153,30 @@ def about():
 
 
 if __name__ == '__main__':
-    # Load initial mock data if database is empty
+    # Load initial data if database is empty
     stats = db.get_statistics()
     if stats['total_images'] == 0:
-        print("Loading initial mock data...")
-        mock_images = get_mock_data()
-        db.add_images(mock_images)
+        print("Database is empty. Attempting to load scraped images...")
+        
+        # Try to load scraped images first
+        try:
+            import os.path
+            if os.path.exists('scraped_images_people.json'):
+                with open('scraped_images_people.json', 'r') as f:
+                    scraped_data = json.load(f)
+                    if scraped_data:
+                        print(f"Loading {len(scraped_data)} scraped images...")
+                        db.add_images(scraped_data)
+                        print("✓ Scraped images loaded successfully!")
+                    else:
+                        raise ValueError("Scraped images file is empty")
+            else:
+                raise FileNotFoundError("No scraped images found")
+        except Exception as e:
+            print(f"Could not load scraped images: {e}")
+            print("Loading mock data instead...")
+            mock_images = get_mock_data()
+            db.add_images(mock_images)
     
     # Get port from environment variable (for cloud deployment)
     port = int(os.environ.get('PORT', 5000))
