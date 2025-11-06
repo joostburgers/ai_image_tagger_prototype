@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Tag Images - AI Image Bias Tagger{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="tagging-interface">
+        <h1>Tag AI-Generated Images</h1>
+        <p class="instructions">
+            Review the image below and select any bias types you observe. If you don't see any bias, click "No Bias - Next Image".
+            Each image is shown to 5 different users. Images without any bias tags after 5 views are removed from the system.
+        </p>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Loading image...</p>
+        </div>
+
+        <div id="no-images" class="no-images" style="display: none;">
+            <h2>No More Images Available</h2>
+            <p>You've viewed all available images. Thank you for your contributions!</p>
+            <a href="/dashboard" class="btn btn-primary">View Dashboard</a>
+        </div>
+
+        <div id="image-container" style="display: none;">
+            <div class="image-display">
+                <img id="current-image" src="" alt="AI Generated Image">
+                <div class="image-info">
+                    <p id="image-title-section" style="display: none;"><strong>Title:</strong> <span id="image-title"></span></p>
+                    <p><strong>Prompt:</strong> <span id="image-prompt"></span></p>
+                    <p><strong>Tags:</strong> <span id="image-tags"></span></p>
+                </div>
+            </div>
+
+            <div class="tagging-form">
+                <h3>Select Bias Types (if any):</h3>
+                <div class="bias-checkboxes">
+                    <label class="bias-checkbox">
+                        <input type="checkbox" name="bias" value="ageism">
+                        <span class="checkbox-label">
+                            <strong>Ageism</strong>
+                            <small>Age-related stereotypes or underrepresentation</small>
+                        </span>
+                    </label>
+                    <label class="bias-checkbox">
+                        <input type="checkbox" name="bias" value="genderism">
+                        <span class="checkbox-label">
+                            <strong>Genderism</strong>
+                            <small>Gender stereotypes or lack of diversity</small>
+                        </span>
+                    </label>
+                    <label class="bias-checkbox">
+                        <input type="checkbox" name="bias" value="ableism">
+                        <span class="checkbox-label">
+                            <strong>Ableism</strong>
+                            <small>Disability-related biases or absence</small>
+                        </span>
+                    </label>
+                    <label class="bias-checkbox">
+                        <input type="checkbox" name="bias" value="colorism">
+                        <span class="checkbox-label">
+                            <strong>Colorism</strong>
+                            <small>Skin tone or ethnic representation biases</small>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="notes-section">
+                    <label for="notes">Additional Notes (optional):</label>
+                    <textarea id="notes" rows="3" placeholder="Describe the bias you observed..."></textarea>
+                </div>
+
+                <div class="action-buttons">
+                    <button id="submit-btn" class="btn btn-primary">Submit Tags</button>
+                    <button id="no-bias-btn" class="btn btn-secondary">No Bias - Next Image</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="progress-indicator">
+            <p id="progress-text">Images tagged this session: <strong>0</strong></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/tagger.js') }}"></script>
+{% endblock %}

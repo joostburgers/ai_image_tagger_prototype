@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}About - AI Image Bias Tagger{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="about-page">
+        <h1>About AI Image Bias Tagger</h1>
+
+        <section class="about-section">
+            <h2>The Purpose</h2>
+            <p>
+                AI Image Bias Tagger is an educational tool designed to highlight how bias can appear in AI-generated
+                images, even when prompts seem neutral or innocuous. By crowdsourcing bias identification, we aim to:
+            </p>
+            <ul>
+                <li>Increase awareness about AI bias in image generation systems</li>
+                <li>Create a dataset for training future bias detection models</li>
+                <li>Educate users about different types of bias (ageism, genderism, ableism, colorism)</li>
+                <li>Provide insights to AI developers for improving their systems</li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>How It Works</h2>
+            <ol>
+                <li><strong>Scraping:</strong> The system scrapes the latest "top" images from Sora's explore page</li>
+                <li><strong>Filtering:</strong> Images are filtered to focus on those depicting people</li>
+                <li><strong>Tagging:</strong> Users view images and tag them with observed bias types</li>
+                <li><strong>Lifecycle:</strong> Images are shown to 5 random users. Images without bias tags after 5 views are removed</li>
+                <li><strong>Analysis:</strong> Tagged images remain in the system for additional review and analysis</li>
+            </ol>
+        </section>
+
+        <section class="about-section">
+            <h2>Types of Bias</h2>
+            <div class="bias-explanations">
+                <div class="bias-explanation">
+                    <h3>Ageism</h3>
+                    <p>
+                        Biases related to age representation, including stereotypical portrayals of older or younger
+                        individuals, underrepresentation of certain age groups, or assumptions about capabilities
+                        based on age.
+                    </p>
+                </div>
+                <div class="bias-explanation">
+                    <h3>Genderism</h3>
+                    <p>
+                        Gender-related biases including stereotypical representations, binary assumptions about gender,
+                        underrepresentation of gender diversity, or role stereotypes (e.g., nurses as women, engineers as men).
+                    </p>
+                </div>
+                <div class="bias-explanation">
+                    <h3>Ableism</h3>
+                    <p>
+                        Biases related to disability representation, including the absence or underrepresentation of
+                        people with disabilities, stereotypical portrayals, or assumptions about capabilities.
+                    </p>
+                </div>
+                <div class="bias-explanation">
+                    <h3>Colorism</h3>
+                    <p>
+                        Biases in skin tone and ethnic representation, including overrepresentation of certain ethnicities,
+                        stereotypical portrayals, lack of diversity, or preferential treatment of lighter skin tones.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2>Why This Matters</h2>
+            <p>
+                AI image generation systems are trained on large datasets that may contain inherent biases reflecting
+                societal prejudices. These biases can be amplified and perpetuated through AI systems, influencing
+                how we see and represent people. By identifying these biases, we can:
+            </p>
+            <ul>
+                <li>Push for more diverse and representative training data</li>
+                <li>Develop better bias detection and mitigation techniques</li>
+                <li>Raise awareness among AI developers and users</li>
+                <li>Work towards more equitable AI systems</li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>Technical Details</h2>
+            <p>
+                This is a prototype system built with Python, Flask, and SQLite. The image scraper targets
+                Sora's explore page (https://sora.chatgpt.com/explore) to gather recently generated AI images.
+                User sessions are tracked to ensure each image is viewed by multiple unique users, and the
+                system automatically manages the lifecycle of images based on tagging activity.
+            </p>
+        </section>
+
+        <section class="about-section">
+            <h2>Get Involved</h2>
+            <p>
+                Start tagging images and contribute to this educational initiative. Your input helps build
+                awareness and creates valuable data for understanding AI bias patterns.
+            </p>
+            <a href="/tag" class="btn btn-primary">Start Tagging Images</a>
+        </section>
+    </div>
+</div>
+{% endblock %}
