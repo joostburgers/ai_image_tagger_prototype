@@ -39,6 +39,12 @@ function displayStatistics(stats) {
     // Display bias type breakdown
     displayBiasChart(stats.bias_types || []);
     
+    // Display engagement vs bias analysis
+    displayEngagementChart(stats.bias_types || []);
+    
+    // Display most tagged image
+    displayMostTaggedImage(stats.most_tagged || null);
+    
     // Display recent tagged images
     displayRecentImages(stats.recent_tagged || []);
 }
@@ -75,6 +81,49 @@ function displayBiasChart(biasTypes) {
         
         chartContainer.appendChild(barDiv);
     });
+}
+
+// Display most tagged image
+function displayMostTaggedImage(image) {
+    const container = document.getElementById('most-tagged-image');
+    container.innerHTML = '';
+    
+    // Use placeholder if no data
+    if (!image) {
+        image = {
+            url: '/images/gen_01k77q60r0e4t91tcm2b29tb26.jpg',
+            prompt: 'A candid photo from the early 2000s of a 20 year old American woman, standing outside a house, taken with an early 2000s digital compact camera, low resolution, slightly grainy, muted colours, soft focus, visible noise, harsh flash, slight motion blur, 2:3 aspect ratio, unedited amateur snapshot look.\nThe woman stands next to a silver 1989 Volvo 240 GL station wagon parked on the driveway of a house in a suburb. She looks at the camera and smiles, with her hands in her jacket pockets. Its snowing and the area is covered in snow, though the driveway is clear. The woman wears black rimmed glasses, a light orange parka jacket, black trousers and grey woolly gloves. Her light brown hair is in a 90s style mop top',
+            bias_types: 'age,gender,race',
+            tag_count: 12
+        };
+    }
+    
+    const biasTypesList = image.bias_types ? image.bias_types.split(',') : [];
+    const biasTagsHtml = biasTypesList
+        .map(type => `<span class="bias-tag">${formatBiasType(type.trim())}</span>`)
+        .join('');
+    
+    const tagCount = image.tag_count || biasTypesList.length;
+    
+    container.innerHTML = `
+        <div class="most-tagged-content">
+            <div class="most-tagged-image-wrapper">
+                <img src="${image.url}" alt="${image.prompt || 'AI Generated Image'}">
+                <div class="tag-count-badge">${tagCount} tag${tagCount !== 1 ? 's' : ''}</div>
+            </div>
+            <div class="most-tagged-info">
+                <div class="info-row">
+                    <strong>Prompt:</strong> ${image.prompt || 'No prompt available'}
+                </div>
+                <div class="info-row">
+                    <strong>Detected Biases:</strong>
+                    <div class="bias-tags-list" style="margin-top: 0.5rem;">
+                        ${biasTagsHtml}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 // Display recent images
@@ -115,12 +164,63 @@ function displayRecentImages(images) {
 // Format bias type for display
 function formatBiasType(type) {
     const types = {
-        'ageism': 'Ageism',
-        'genderism': 'Genderism',
+        'ageism': 'Age Discrimination',
+        'genderism': 'Gender',
         'ableism': 'Ableism',
-        'colorism': 'Colorism'
+        'colorism': 'Race & Ethnicity',
+        'age': 'Age Discrimination',
+        'gender': 'Gender',
+        'race': 'Race & Ethnicity',
+        'class': 'Class & Socioeconomic Status'
     };
     return types[type.toLowerCase()] || type;
+}
+
+// Display engagement vs bias chart
+function displayEngagementChart(biasTypes) {
+    const chartContainer = document.getElementById('engagement-chart');
+    chartContainer.innerHTML = '';
+    
+    if (biasTypes.length === 0) {
+        chartContainer.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">No data available yet</p>';
+        return;
+    }
+    
+    // Generate simulated engagement data for each bias type
+    const engagementData = biasTypes.map(bias => {
+        // Simulate average engagement (likes + shares) for images with this bias
+        const avgEngagement = Math.floor(Math.random() * 400) + 50;
+        return {
+            biasType: bias.bias_type,
+            count: bias.count,
+            avgEngagement: avgEngagement
+        };
+    });
+    
+    // Sort by engagement (highest first)
+    engagementData.sort((a, b) => b.avgEngagement - a.avgEngagement);
+    
+    const maxEngagement = Math.max(...engagementData.map(d => d.avgEngagement));
+    
+    // Create chart
+    engagementData.forEach(data => {
+        const barDiv = document.createElement('div');
+        barDiv.className = 'engagement-bar';
+        
+        const percentage = (data.avgEngagement / maxEngagement) * 100;
+        
+        barDiv.innerHTML = `
+            <div class="bias-bar-label">
+                <span>${formatBiasType(data.biasType)}</span>
+                <span>${data.avgEngagement} avg engagement (${data.count} images)</span>
+            </div>
+            <div style="background: #e2e8f0; border-radius: 8px; overflow: hidden;">
+                <div class="engagement-bar-fill" style="width: ${percentage}%"></div>
+            </div>
+        `;
+        
+        chartContainer.appendChild(barDiv);
+    });
 }
 
 // Truncate text

@@ -8,10 +8,12 @@ const loadingEl = document.getElementById('loading');
 const noImagesEl = document.getElementById('no-images');
 const imageContainerEl = document.getElementById('image-container');
 const currentImageEl = document.getElementById('current-image');
-const imageTitleSectionEl = document.getElementById('image-title-section');
-const imageTitleEl = document.getElementById('image-title');
+const imageSourceEl = document.getElementById('image-source');
+const imageGeneratorEl = document.getElementById('image-generator');
 const imagePromptEl = document.getElementById('image-prompt');
 const imageTagsEl = document.getElementById('image-tags');
+const likeCountEl = document.getElementById('like-count');
+const shareCountEl = document.getElementById('share-count');
 const notesEl = document.getElementById('notes');
 const submitBtn = document.getElementById('submit-btn');
 const noBiasBtn = document.getElementById('no-bias-btn');
@@ -54,18 +56,23 @@ function displayImage(image) {
     currentImageEl.src = imageUrl;
     currentImageEl.alt = image.prompt || 'AI Generated Image';
     
-    // Display title if available (and it's not the same as prompt)
-    if (image.title && image.title !== image.prompt) {
-        imageTitleEl.textContent = image.title;
-        imageTitleSectionEl.style.display = 'block';
-    } else {
-        imageTitleSectionEl.style.display = 'none';
-    }
+    // Generate fictional data
+    const sources = ['CGDream', 'Gencraft', 'CivitAI'];
+    const generators = ['DALL-E 2', 'DALL-E 3', 'Stable Diffusion', 'Stable Diffusion XL', 'Midjourney', 'FLUX', 'Firefly', 'Leonardo AI'];
+    const randomSource = sources[Math.floor(Math.random() * sources.length)];
+    const randomGenerator = generators[Math.floor(Math.random() * generators.length)];
+    const randomLikes = Math.floor(Math.random() * 350) + 1;
+    const randomShares = Math.floor(Math.random() * 225) + 1;
     
+    imageSourceEl.textContent = randomSource;
+    imageGeneratorEl.textContent = randomGenerator;
     imagePromptEl.textContent = image.prompt || 'No prompt available';
     
     const tags = Array.isArray(image.tags) ? image.tags : [];
     imageTagsEl.textContent = tags.length > 0 ? tags.join(', ') : 'None';
+    
+    likeCountEl.textContent = randomLikes;
+    shareCountEl.textContent = randomShares;
     
     loadingEl.style.display = 'none';
     imageContainerEl.style.display = 'block';

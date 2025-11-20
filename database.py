@@ -274,6 +274,20 @@ class Database:
         ''')
         stats['recent_tagged'] = [dict(row) for row in cursor.fetchall()]
         
+        # Most tagged image
+        cursor.execute('''
+            SELECT i.id, i.url, i.prompt, i.bias_tag_count as tag_count,
+                   GROUP_CONCAT(DISTINCT bt.bias_type) as bias_types
+            FROM images i
+            LEFT JOIN bias_tags bt ON i.id = bt.image_id
+            WHERE i.bias_tag_count > 0
+            GROUP BY i.id
+            ORDER BY i.bias_tag_count DESC
+            LIMIT 1
+        ''')
+        most_tagged_row = cursor.fetchone()
+        stats['most_tagged'] = dict(most_tagged_row) if most_tagged_row else None
+        
         conn.close()
         return stats
     

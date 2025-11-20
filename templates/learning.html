@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Learning - AI Image Bias Tagger{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="container">
+        <h1>Learning Modules</h1>
+        <p class="subtitle">Mock-Up of Interactive Lessons</p>
+        <p class="description">
+            Users can go through these lessons at their own pace. Each is structured along the same lines with a short overview, an interactivity, and a printable certification upon completion to help with giving class credit.
+        </p>
+    </div>
+</div>
+
+<div class="container learning-page">
+    <div class="lessons-grid">
+        <!-- Lesson 1 -->
+        <div class="lesson-card introduction">
+            <div class="lesson-image">
+                <img src="{{ url_for('serve_interface_image', filename='new_media_old_problems.jpg') }}" alt="New Media/Old Problems">
+            </div>
+            <div class="lesson-header">
+                <span class="lesson-number">1</span>
+                <span class="lesson-level introduction">Introduction</span>
+            </div>
+            <h3 class="lesson-title">New Media/Old Problems: Body Misrepresentation from Print to Digital</h3>
+            <p class="lesson-description">
+                Overview of the history of bias in print media and its continuation into the digital space
+            </p>
+            <button class="btn btn-primary lesson-btn">Start Lesson</button>
+        </div>
+
+        <!-- Lesson 2 -->
+        <div class="lesson-card introduction">
+            <div class="lesson-image">
+                <img src="{{ url_for('serve_interface_image', filename='worth_1000_words.jpg') }}" alt="Worth a 1,000 Words">
+            </div>
+            <div class="lesson-header">
+                <span class="lesson-number">2</span>
+                <span class="lesson-level introduction">Introduction</span>
+            </div>
+            <h3 class="lesson-title">Worth a 1,000 Words: How AI generates Images</h3>
+            <p class="lesson-description">
+                Explore how image diffusion models work and how "infer" output text prompts
+            </p>
+            <button class="btn btn-primary lesson-btn">Start Lesson</button>
+        </div>
+
+        <!-- Lesson 3 -->
+        <div class="lesson-card intermediate">
+            <div class="lesson-image">
+                <img src="{{ url_for('serve_interface_image', filename='embedding_bias.jpg') }}" alt="Embedding Bias">
+            </div>
+            <div class="lesson-header">
+                <span class="lesson-number">3</span>
+                <span class="lesson-level intermediate">Intermediate</span>
+            </div>
+            <h3 class="lesson-title">Embedding Bias: Understanding how Bias Creeps into AI Systems</h3>
+            <p class="lesson-description">
+                Deep dive into how embedding works in AI models and why this can lead to biased outputs
+            </p>
+            <button class="btn btn-primary lesson-btn">Start Lesson</button>
+        </div>
+
+        <!-- Lesson 4 -->
+        <div class="lesson-card intermediate">
+            <div class="lesson-image">
+                <img src="{{ url_for('serve_interface_image', filename='tag_you_re_it.jpg') }}" alt="Tag, You're It">
+            </div>
+            <div class="lesson-header">
+                <span class="lesson-number">4</span>
+                <span class="lesson-level intermediate">Intermediate</span>
+            </div>
+            <h3 class="lesson-title">Tag, You're It: The Humans who keep AI intelligent</h3>
+            <p class="lesson-description">
+               Critical look at the often exploitative labor required to maintain these AI systems
+            </p>
+            <button class="btn btn-primary lesson-btn">Start Lesson</button>
+        </div>
+
+        <!-- Lesson 5 -->
+        <div class="lesson-card advanced">
+            <div class="lesson-image">
+                <img src="{{ url_for('serve_interface_image', filename='stable_inclusion.jpg') }}" alt="Stable Inclusion">
+            </div>
+            <div class="lesson-header">
+                <span class="lesson-number">5</span>
+                <span class="lesson-level advanced">Advanced</span>
+            </div>
+            <h3 class="lesson-title">Stable Inclusion: Exploring the Tagging Dashboard to Understand Bias</h3>
+            <p class="lesson-description">
+               A tour of the tagging dashboard and some preliminary results that can inform how you tag images
+            </p>
+            <button class="btn btn-primary lesson-btn">Start Lesson</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Placeholder for future lesson interaction
+    document.querySelectorAll('.lesson-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            alert('Lesson content coming soon!');
+        });
+    });
+</script>
+{% endblock %}

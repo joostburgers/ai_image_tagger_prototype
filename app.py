@@ -23,6 +23,12 @@ def serve_image(filename):
     return send_from_directory('images', filename)
 
 
+@app.route('/interface_images/<path:filename>')
+def serve_interface_image(filename):
+    """Serve interface images from the interface_images directory"""
+    return send_from_directory('interface_images', filename)
+
+
 @app.route('/')
 def index():
     """Main page"""
@@ -152,6 +158,12 @@ def about():
     return render_template('about.html')
 
 
+@app.route('/learning')
+def learning():
+    """Learning modules page"""
+    return render_template('learning.html')
+
+
 if __name__ == '__main__':
     # Load initial data if database is empty
     stats = db.get_statistics()
@@ -161,8 +173,8 @@ if __name__ == '__main__':
         # Try to load scraped images first
         try:
             import os.path
-            if os.path.exists('scraped_images_people.json'):
-                with open('scraped_images_people.json', 'r') as f:
+            if os.path.exists('scraped_images.json'):
+                with open('scraped_images.json', 'r', encoding='utf-8') as f:
                     scraped_data = json.load(f)
                     if scraped_data:
                         print(f"Loading {len(scraped_data)} scraped images...")
